@@ -199,6 +199,43 @@
 
   });
 
+   /**
+   * Porfolio isotope and filter
+   */
+   window.addEventListener('load', () => {
+    let portfolioContainer = select('.osp-container');
+    if (portfolioContainer) {
+      let portfolioIsotope = new Isotope(portfolioContainer, {
+        itemSelector: '.osp-item'
+      });
+
+      let portfolioFilters = select('#osp-flters li', true);
+
+      portfolioIsotope.arrange({
+        filter: '.filter-info'
+      });
+      portfolioIsotope.on('arrangeComplete', function() {
+        AOS.refresh()
+      });
+
+      on('click', '#osp-flters li', function(e) {
+        e.preventDefault();
+        portfolioFilters.forEach(function(el) {
+          el.classList.remove('filter-active');
+        });
+        this.classList.add('filter-active');
+
+        portfolioIsotope.arrange({
+          filter: this.getAttribute('data-filter')
+        });
+        portfolioIsotope.on('arrangeComplete', function() {
+          AOS.refresh()
+        });
+      }, true);
+    }
+
+  });
+
   /**
    * Initiate portfolio lightbox 
    */
